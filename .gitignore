@@ -1,0 +1,44 @@
+# build output
+dist/
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+dev-server*.txt
+dev-server*.log
+dev-server*.err
+
+
+# environment variables
+.env
+.env.production
+
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
+.idea/
+
+# local review artifacts
+addons-section.png
+carousel-*.png
+center-*.png
+design-kami-*.png
+gallery-events.png
+kelebihan-medal-3d.png
+live-design-kami-measure.png
+local-*.jpg
+local-*.png
+new-testimonial.png
+orig-site.jpg
+original-design-kami.png
+process-section.png
+shot-*.png
+tmp-*.png

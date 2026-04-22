@@ -1,0 +1,1219 @@
+---
+import fs from 'node:fs/promises';
+import path from 'node:path';
+
+const baseDir = path.join(process.cwd(), 'public', 'reference', "home");
+const head = JSON.parse(await fs.readFile(path.join(baseDir, 'head.json'), 'utf8'));
+const sourceUrl = "https://www.malayajerseyking.com.my/";
+const routeMap = {
+  "https://www.malayajerseyking.com.my/": "/"
+};
+const framePath = '/reference/home/index.html';
+---
+
+<html>
+  <head>
+    <title>{head.title}</title>
+    {head.metas?.map((meta) => <meta {...meta} />)}
+    {head.links?.map((link) => <link {...link} />)}
+    <style>
+      html, body {
+        margin: 0;
+        height: 100%;
+      }
+
+      .frame-shell {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        background: #ffffff;
+      }
+
+      iframe {
+        width: 100%;
+        height: 100vh;
+        border: 0;
+        display: block;
+        opacity: 0;
+        transition: opacity 180ms ease;
+      }
+
+      .frame-shell.is-ready iframe {
+        opacity: 1;
+      }
+
+      .frame-cover {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background:
+          radial-gradient(circle at top, rgba(242, 123, 24, 0.12), transparent 44%),
+          #ffffff;
+        transition: opacity 180ms ease, visibility 180ms ease;
+      }
+
+      .frame-shell.is-ready .frame-cover {
+        opacity: 0;
+        visibility: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="frame-shell" id="frame-shell">
+      <div class="frame-cover" aria-hidden="true"></div>
+      <iframe id="page-frame" src={framePath}></iframe>
+    </div>
+    <script is:inline>
+      const iframe = document.getElementById('page-frame');
+      const frameShell = document.getElementById('frame-shell');
+      const sourceUrlValue = "https://www.malayajerseyking.com.my/";
+      const imageVersion = '20260421';
+      const routeMapValue = {
+  "https://www.malayajerseyking.com.my/": "/"
+};
+
+      const revealFrame = () => {
+        frameShell?.classList.add('is-ready');
+      };
+
+      const normalizeTarget = (href) => {
+        if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) {
+          return null;
+        }
+
+        try {
+          const resolvedUrl = new URL(href, sourceUrlValue);
+          const pathname = resolvedUrl.pathname.replace(/\/+$/, '') || '/';
+          return resolvedUrl.origin + pathname;
+        } catch {
+          return null;
+        }
+      };
+
+      const localRouteForHref = (href) => {
+        const normalizedTarget = normalizeTarget(href);
+        if (!normalizedTarget) return null;
+        return routeMapValue[normalizedTarget] || null;
+      };
+
+      const rewriteLinks = (root) => {
+        root.querySelectorAll?.('a[href]').forEach((link) => {
+          const localRoute = localRouteForHref(link.getAttribute('href'));
+          if (!localRoute) return;
+
+          link.setAttribute('href', localRoute);
+          link.setAttribute('target', '_top');
+        });
+      };
+
+      iframe?.addEventListener('load', () => {
+        const iframeWindow = iframe.contentWindow;
+        const iframeDocument = iframe.contentDocument;
+        if (!iframeWindow || !iframeDocument) {
+          revealFrame();
+          return;
+        }
+
+        const headerStyle = iframeDocument.createElement('style');
+        headerStyle.textContent = `
+          .tatsu-header.rG .qG {
+            height: 70px !important;
+          }
+
+          #form {
+            opacity: 0.95 !important;
+            border-radius: 20px !important;
+            overflow: hidden !important;
+          }
+
+          @media only screen and (max-width: 767px) {
+            .tatsu-header.rG .qG {
+              height: 72px !important;
+            }
+          }
+        `;
+        iframeDocument.head?.appendChild(headerStyle);
+
+        const promoBanner = iframeDocument.querySelector(
+          'img[src*="rm19-90--2-"], img[data-src*="rm19-90--2-"]'
+        );
+        if (promoBanner instanceof iframeWindow.HTMLImageElement) {
+          const bannerShell = promoBanner.closest('.tatsu-single-image-inner');
+          if (bannerShell instanceof iframeWindow.HTMLElement) {
+            bannerShell.style.position = 'relative';
+          }
+
+          promoBanner.style.visibility = 'hidden';
+          promoBanner.setAttribute('aria-hidden', 'true');
+
+          const bannerOverlay = iframeDocument.createElement('div');
+          bannerOverlay.setAttribute(
+            'aria-label',
+            'Harga Serendah RM22.90/SET Sahaja Dapat Baju Full Sublimation + 3D Medal'
+          );
+          bannerOverlay.style.position = 'absolute';
+          bannerOverlay.style.inset = '0';
+          bannerOverlay.style.display = 'flex';
+          bannerOverlay.style.flexDirection = 'column';
+          bannerOverlay.style.alignItems = 'center';
+          bannerOverlay.style.justifyContent = 'center';
+          bannerOverlay.style.textAlign = 'center';
+          bannerOverlay.style.background = 'transparent';
+          bannerOverlay.style.padding = '0';
+          bannerOverlay.style.boxSizing = 'border-box';
+          bannerOverlay.style.fontFamily = 'Arial, Helvetica, sans-serif';
+          bannerOverlay.style.lineHeight = '0.95';
+          bannerOverlay.style.letterSpacing = '-0.01em';
+          bannerOverlay.style.pointerEvents = 'none';
+
+          const topRow = iframeDocument.createElement('div');
+          topRow.style.display = 'flex';
+          topRow.style.flexWrap = 'wrap';
+          topRow.style.justifyContent = 'center';
+          topRow.style.alignItems = 'baseline';
+          topRow.style.columnGap = '6px';
+          topRow.style.rowGap = '0';
+          topRow.style.whiteSpace = 'nowrap';
+
+          const prefix = iframeDocument.createElement('span');
+          prefix.textContent = 'Harga Serendah';
+          prefix.style.color = '#f07c18';
+          prefix.style.fontWeight = '700';
+          prefix.style.fontSize = '18px';
+          prefix.style.lineHeight = '1';
+
+          const price = iframeDocument.createElement('span');
+          price.textContent = 'RM22.90';
+          price.style.color = '#ff1f1f';
+          price.style.fontWeight = '900';
+          price.style.fontSize = '28px';
+          price.style.lineHeight = '1';
+          price.style.textShadow = '-1px 0 #000, 1px 0 #000, 0 -1px #000, 0 1px #000';
+
+          const setLabel = iframeDocument.createElement('span');
+          setLabel.textContent = '/SET';
+          setLabel.style.color = '#111111';
+          setLabel.style.fontWeight = '700';
+          setLabel.style.fontSize = '13px';
+          setLabel.style.lineHeight = '1';
+          setLabel.style.marginLeft = '2px';
+
+          const suffix = iframeDocument.createElement('span');
+          suffix.textContent = 'Sahaja';
+          suffix.style.color = '#f07c18';
+          suffix.style.fontWeight = '700';
+          suffix.style.fontSize = '16px';
+          suffix.style.lineHeight = '1';
+          suffix.style.marginLeft = '2px';
+
+          const bottomRow = iframeDocument.createElement('div');
+          bottomRow.textContent = 'Dapat Baju Full Sublimation + 3D Medal';
+          bottomRow.style.marginTop = '2px';
+          bottomRow.style.color = '#f07c18';
+          bottomRow.style.fontWeight = '700';
+          bottomRow.style.fontSize = '17px';
+          bottomRow.style.lineHeight = '1.05';
+
+          topRow.append(prefix, price, setLabel, suffix);
+          bannerOverlay.append(topRow, bottomRow);
+
+          bannerShell?.appendChild(bannerOverlay);
+        }
+
+        const designKamiSection = iframeDocument.querySelector('#design-kami');
+        if (designKamiSection && !designKamiSection.dataset.customLayoutApplied) {
+          designKamiSection.dataset.customLayoutApplied = 'true';
+          designKamiSection.style.background =
+            'linear-gradient(55deg, #e24d28 0%, #ae2b03 100%)';
+          designKamiSection.style.padding = '0';
+          designKamiSection.style.minHeight = '600px';
+          designKamiSection.style.boxSizing = 'border-box';
+          designKamiSection.innerHTML = `
+            <div class="design-kami-shell">
+              <h3 class="design-kami-title">Custom Mengikut Kesukaan Anda</h3>
+              <div class="design-kami-carousel">
+                <div class="design-kami-viewport">
+                  <div class="design-kami-marquee" aria-label="Custom Mengikut Kesukaan Anda">
+                    <div class="design-kami-grid" role="list" aria-label="Custom Mengikut Kesukaan Anda">
+                      <figure class="design-kami-card" role="listitem">
+                        <div class="design-kami-circle">
+                          <img src="/images/11. 2D MEDAL.png?v=${imageVersion}" alt="2D Medal" />
+                        </div>
+                        <figcaption>2D Medal</figcaption>
+                      </figure>
+                      <figure class="design-kami-card" role="listitem">
+                        <div class="design-kami-circle">
+                          <img src="/images/1. BIB NUMBER.png?v=${imageVersion}" alt="Bib Number" />
+                        </div>
+                        <figcaption>Bib Number</figcaption>
+                      </figure>
+                      <figure class="design-kami-card" role="listitem">
+                        <div class="design-kami-circle">
+                          <img src="/images/2. CAP.png?v=${imageVersion}" alt="Cap" />
+                        </div>
+                        <figcaption>Cap</figcaption>
+                      </figure>
+                      <figure class="design-kami-card" role="listitem">
+                        <div class="design-kami-circle">
+                          <img src="/images/3. DRAWSTRING BAG.png?v=${imageVersion}" alt="Drawstring Bag" />
+                        </div>
+                        <figcaption>Drawstring Bag</figcaption>
+                      </figure>
+                      <figure class="design-kami-card" role="listitem">
+                        <div class="design-kami-circle">
+                          <img src="/images/4. GOODIES BAG.png?v=${imageVersion}" alt="Goodies Bag" />
+                        </div>
+                        <figcaption>Goodies Bag</figcaption>
+                      </figure>
+                      <figure class="design-kami-card" role="listitem">
+                        <div class="design-kami-circle">
+                          <img src="/images/5. WRISTBAND.png?v=${imageVersion}" alt="Wristband" />
+                        </div>
+                        <figcaption>Wristband</figcaption>
+                      </figure>
+                      <figure class="design-kami-card" role="listitem">
+                        <div class="design-kami-circle">
+                          <img src="/images/6. TROPHY.png?v=${imageVersion}" alt="Trophy" />
+                        </div>
+                        <figcaption>Trophy</figcaption>
+                      </figure>
+                      <figure class="design-kami-card" role="listitem">
+                        <div class="design-kami-circle">
+                          <img src="/images/7. READYMADE MEDAL.png?v=${imageVersion}" alt="Readymade Medal" />
+                        </div>
+                        <figcaption>Readymade Medal</figcaption>
+                      </figure>
+                      <figure class="design-kami-card" role="listitem">
+                        <div class="design-kami-circle">
+                          <img src="/images/8. COLLAR PIN.png?v=${imageVersion}" alt="Collar Pin" />
+                        </div>
+                        <figcaption>Collar Pin</figcaption>
+                      </figure>
+                      <figure class="design-kami-card" role="listitem">
+                        <div class="design-kami-circle">
+                          <img src="/images/9. NAMETAG.png?v=${imageVersion}" alt="Nametag" />
+                        </div>
+                        <figcaption>Nametag</figcaption>
+                      </figure>
+                      <figure class="design-kami-card" role="listitem">
+                        <div class="design-kami-circle">
+                          <img src="/images/10. KEYCHAIN.png?v=${imageVersion}" alt="Keychain" />
+                        </div>
+                        <figcaption>Keychain</figcaption>
+                      </figure>
+                    </div>
+                    <div class="design-kami-grid" aria-hidden="true">
+                      <figure class="design-kami-card">
+                        <div class="design-kami-circle">
+                          <img src="/images/11. 2D MEDAL.png?v=${imageVersion}" alt="" />
+                        </div>
+                        <figcaption>2D Medal</figcaption>
+                      </figure>
+                      <figure class="design-kami-card">
+                        <div class="design-kami-circle">
+                          <img src="/images/1. BIB NUMBER.png?v=${imageVersion}" alt="" />
+                        </div>
+                        <figcaption>Bib Number</figcaption>
+                      </figure>
+                      <figure class="design-kami-card">
+                        <div class="design-kami-circle">
+                          <img src="/images/2. CAP.png?v=${imageVersion}" alt="" />
+                        </div>
+                        <figcaption>Cap</figcaption>
+                      </figure>
+                      <figure class="design-kami-card">
+                        <div class="design-kami-circle">
+                          <img src="/images/3. DRAWSTRING BAG.png?v=${imageVersion}" alt="" />
+                        </div>
+                        <figcaption>Drawstring Bag</figcaption>
+                      </figure>
+                      <figure class="design-kami-card">
+                        <div class="design-kami-circle">
+                          <img src="/images/4. GOODIES BAG.png?v=${imageVersion}" alt="" />
+                        </div>
+                        <figcaption>Goodies Bag</figcaption>
+                      </figure>
+                      <figure class="design-kami-card">
+                        <div class="design-kami-circle">
+                          <img src="/images/5. WRISTBAND.png?v=${imageVersion}" alt="" />
+                        </div>
+                        <figcaption>Wristband</figcaption>
+                      </figure>
+                      <figure class="design-kami-card">
+                        <div class="design-kami-circle">
+                          <img src="/images/6. TROPHY.png?v=${imageVersion}" alt="" />
+                        </div>
+                        <figcaption>Trophy</figcaption>
+                      </figure>
+                      <figure class="design-kami-card">
+                        <div class="design-kami-circle">
+                          <img src="/images/7. READYMADE MEDAL.png?v=${imageVersion}" alt="" />
+                        </div>
+                        <figcaption>Readymade Medal</figcaption>
+                      </figure>
+                      <figure class="design-kami-card">
+                        <div class="design-kami-circle">
+                          <img src="/images/8. COLLAR PIN.png?v=${imageVersion}" alt="" />
+                        </div>
+                        <figcaption>Collar Pin</figcaption>
+                      </figure>
+                      <figure class="design-kami-card">
+                        <div class="design-kami-circle">
+                          <img src="/images/9. NAMETAG.png?v=${imageVersion}" alt="" />
+                        </div>
+                        <figcaption>Nametag</figcaption>
+                      </figure>
+                      <figure class="design-kami-card">
+                        <div class="design-kami-circle">
+                          <img src="/images/10. KEYCHAIN.png?v=${imageVersion}" alt="" />
+                        </div>
+                        <figcaption>Keychain</figcaption>
+                      </figure>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+
+          const style = iframeDocument.createElement('style');
+          style.textContent = `
+            #design-kami .design-kami-shell {
+              max-width: 1240px;
+              margin: 0 auto;
+              min-height: 600px;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: flex-start;
+              padding-top: 100px;
+              font-family: 'Work Sans', sans-serif;
+            }
+
+            #design-kami .design-kami-title {
+              margin: 0;
+              width: 100%;
+              color: #fff;
+              font-family: 'Spartan', sans-serif;
+              font-size: 35px;
+              line-height: 43.75px;
+              font-weight: 600;
+              text-align: center;
+              letter-spacing: 0;
+            }
+
+            #design-kami .design-kami-carousel {
+              --design-kami-card-size: 220px;
+              --design-kami-gap: 20px;
+              --design-kami-marquee-duration: 42s;
+              --design-kami-track-span: 1080px;
+              --design-kami-hover-bleed-top: 18px;
+              --design-kami-hover-bleed-bottom: 44px;
+              width: 100%;
+              margin-top: 43px;
+              overflow: hidden;
+              position: relative;
+              max-width: var(--design-kami-track-span);
+              margin-left: auto;
+              margin-right: auto;
+            }
+
+            #design-kami .design-kami-viewport {
+              width: 100%;
+              overflow: hidden;
+              padding-top: var(--design-kami-hover-bleed-top);
+              padding-bottom: var(--design-kami-hover-bleed-bottom);
+            }
+
+            #design-kami .design-kami-marquee {
+              display: flex;
+              flex-wrap: nowrap;
+              gap: var(--design-kami-gap);
+              width: max-content;
+              animation: design-kami-marquee var(--design-kami-marquee-duration) linear infinite;
+              will-change: transform;
+            }
+
+            #design-kami .design-kami-carousel:hover .design-kami-marquee {
+              animation-play-state: paused;
+            }
+
+            #design-kami .design-kami-grid {
+              display: flex;
+              flex: 0 0 auto;
+              flex-wrap: nowrap;
+              gap: var(--design-kami-gap);
+              align-items: flex-start;
+              width: max-content;
+              padding: 8px 0;
+            }
+
+            #design-kami .design-kami-card {
+              margin: 0;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              text-align: center;
+              flex: 0 0 var(--design-kami-card-size);
+              position: relative;
+              z-index: 0;
+              transform: scale(1);
+              transform-origin: center 38%;
+              transition:
+                transform 240ms ease,
+                filter 240ms ease,
+                opacity 240ms ease;
+            }
+
+            #design-kami .design-kami-circle {
+              width: var(--design-kami-card-size);
+              height: var(--design-kami-card-size);
+              border-radius: 0;
+              overflow: visible;
+              background: transparent;
+              box-shadow: none;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+
+            #design-kami .design-kami-circle img {
+              width: 100%;
+              height: 100%;
+              object-fit: contain;
+              object-position: center center;
+              display: block;
+              transform: scale(1);
+              transition: transform 240ms ease;
+            }
+
+            #design-kami figcaption {
+              margin-top: 10px;
+              color: #fff;
+              font-family: 'Work Sans', sans-serif;
+              font-size: 17px;
+              line-height: 1.15;
+              font-weight: 400;
+              transition:
+                transform 240ms ease,
+                filter 240ms ease,
+                opacity 240ms ease;
+            }
+
+            @keyframes design-kami-marquee {
+              from {
+                transform: translate3d(0, 0, 0);
+              }
+              to {
+                transform: translate3d(calc(-50% - (var(--design-kami-gap) / 2)), 0, 0);
+              }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+              #design-kami .design-kami-marquee {
+                animation: none;
+              }
+            }
+
+            @media (hover: hover) and (pointer: fine) {
+              #design-kami .design-kami-carousel:hover .design-kami-card {
+                filter: blur(4px);
+                opacity: 0.4;
+                transform: scale(0.94);
+              }
+
+              #design-kami .design-kami-carousel:hover .design-kami-card:hover {
+                filter: none;
+                opacity: 1;
+                transform: scale(1.16);
+                z-index: 3;
+              }
+
+              #design-kami .design-kami-carousel:hover .design-kami-card:hover .design-kami-circle img {
+                transform: scale(1.14);
+              }
+            }
+
+            @media (max-width: 1100px) {
+              #design-kami .design-kami-carousel {
+                --design-kami-card-size: 190px;
+                --design-kami-gap: 18px;
+                --design-kami-marquee-duration: 42s;
+                --design-kami-hover-bleed-top: 16px;
+                --design-kami-hover-bleed-bottom: 38px;
+                max-width: none;
+              }
+            }
+
+            @media (max-width: 900px) {
+              #design-kami .design-kami-shell {
+                padding-top: 74px;
+                min-height: 500px;
+              }
+
+              #design-kami .design-kami-carousel {
+                --design-kami-card-size: 190px;
+                --design-kami-gap: 18px;
+                --design-kami-marquee-duration: 42s;
+                --design-kami-hover-bleed-bottom: 34px;
+              }
+            }
+
+            @media (max-width: 540px) {
+              #design-kami .design-kami-shell {
+                min-height: 450px;
+              }
+
+              #design-kami .design-kami-carousel {
+                --design-kami-card-size: 156px;
+                --design-kami-gap: 14px;
+                --design-kami-marquee-duration: 42s;
+                --design-kami-hover-bleed-top: 12px;
+                --design-kami-hover-bleed-bottom: 30px;
+              }
+              #design-kami figcaption {
+                font-size: 15px;
+              }
+            }
+        `;
+          iframeDocument.head?.appendChild(style);
+        }
+
+        const customerShowcaseItems = [
+          { name: 'CITI BANK MALAYSIA', image: `/images/6.png?v=${imageVersion}` },
+          { name: 'GDEX BERHAD', image: `/images/7.png?v=${imageVersion}` },
+          { name: 'KTM BERHAD', image: `/images/12.png?v=${imageVersion}` },
+          { name: 'HOSPITAL KUALA LUMPUR', image: `/images/14.png?v=${imageVersion}` },
+          { name: 'MAJLIS BANDARAYA IPOH (MBI)', image: `/images/11.png?v=${imageVersion}` },
+          { name: 'SUPER SAFEE SOCCER SCHOOL & FRIM', image: `/images/13.png?v=${imageVersion}` },
+          { name: 'PENANG INTERNATIONAL AIRPORT', image: `/images/10.png?v=${imageVersion}` },
+          { name: 'LAZIZON x SKATONE', image: `/images/9.png?v=${imageVersion}` },
+          { name: 'KELAB SUKAN & KEBAJIKAN JAB PERANCANGAN', image: `/images/8.png?v=${imageVersion}` },
+        ];
+
+        const customerSectionHeading = Array.from(
+          iframeDocument.querySelectorAll('h1, h2, h3, h4, h5, h6, p')
+        ).find((element) => /Antara Pelanggan/i.test(element.textContent?.trim() || ''));
+
+        const customerSectionPattern = encodeURIComponent(`
+          <svg xmlns="http://www.w3.org/2000/svg" width="180" height="96" viewBox="0 0 180 96" fill="none">
+            <rect width="180" height="96" fill="#fffaf5"/>
+            <g stroke="#dbeee7" stroke-width="1.4" stroke-linecap="round">
+              <path d="M-45 24C-22.5 2 22.5 2 45 24C67.5 46 112.5 46 135 24C157.5 2 202.5 2 225 24"/>
+              <path d="M-45 36C-22.5 14 22.5 14 45 36C67.5 58 112.5 58 135 36C157.5 14 202.5 14 225 36"/>
+              <path d="M-45 48C-22.5 26 22.5 26 45 48C67.5 70 112.5 70 135 48C157.5 26 202.5 26 225 48"/>
+              <path d="M-45 60C-22.5 38 22.5 38 45 60C67.5 82 112.5 82 135 60C157.5 38 202.5 38 225 60"/>
+              <path d="M-45 72C-22.5 50 22.5 50 45 72C67.5 94 112.5 94 135 72C157.5 50 202.5 50 225 72"/>
+              <path d="M-45 84C-22.5 62 22.5 62 45 84C67.5 106 112.5 106 135 84C157.5 62 202.5 62 225 84"/>
+              <path d="M-45 12C-22.5 34 22.5 34 45 12C67.5 -10 112.5 -10 135 12C157.5 34 202.5 34 225 12"/>
+              <path d="M-45 24C-22.5 46 22.5 46 45 24C67.5 2 112.5 2 135 24C157.5 46 202.5 46 225 24"/>
+              <path d="M-45 36C-22.5 58 22.5 58 45 36C67.5 14 112.5 14 135 36C157.5 58 202.5 58 225 36"/>
+              <path d="M-45 48C-22.5 70 22.5 70 45 48C67.5 26 112.5 26 135 48C157.5 70 202.5 70 225 48"/>
+              <path d="M-45 60C-22.5 82 22.5 82 45 60C67.5 38 112.5 38 135 60C157.5 82 202.5 82 225 60"/>
+            </g>
+          </svg>
+        `);
+
+        const customerSection = customerSectionHeading?.closest('.FF');
+        if (
+          customerSection instanceof iframeWindow.HTMLElement &&
+          !customerSection.dataset.customerShowcaseApplied
+        ) {
+          customerSection.dataset.customerShowcaseApplied = 'true';
+          customerSection.style.backgroundColor = '#fffaf5';
+          customerSection.style.backgroundImage = `url("data:image/svg+xml,${customerSectionPattern}")`;
+          customerSection.style.backgroundRepeat = 'repeat';
+          customerSection.style.backgroundSize = '180px 96px';
+          customerSection.style.backgroundPosition = 'center top';
+          customerSection.style.padding = '0';
+          customerSection.style.minHeight = '760px';
+          customerSection.style.boxSizing = 'border-box';
+          customerSection.innerHTML = `
+            <div class="people-showcase-shell">
+              <h3 class="people-showcase-title">Antara Pelanggan-pelanggan Kami</h3>
+              <div
+                class="people-showcase"
+                style="--collection-focus-duration: 280ms; --collection-motion-duration: 620ms; --collection-motion-easing: cubic-bezier(0.22, 1, 0.36, 1);"
+              >
+                <button aria-label="Gerak pelanggan ke kiri" class="carousel-arrow is-left" type="button">
+                  <svg aria-hidden="true" class="carousel-arrow-icon" fill="none" viewBox="0 0 24 24">
+                    <path d="M14.5 6.5L9 12L14.5 17.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                  </svg>
+                </button>
+                <div aria-live="polite" class="people-grid"></div>
+                <button aria-label="Gerak pelanggan ke kanan" class="carousel-arrow is-right" type="button">
+                  <svg aria-hidden="true" class="carousel-arrow-icon is-right" fill="none" viewBox="0 0 24 24">
+                    <path d="M14.5 6.5L9 12L14.5 17.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                  </svg>
+                </button>
+              </div>
+              <a
+                class="people-showcase-cta"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="http://wasap.my/60162539162/PmKatalogMJK"
+              >
+                DAPATKAN KATALOG ANDA SEKARANG
+              </a>
+            </div>
+          `;
+
+          const customerShowcaseStyleId = 'customer-showcase-style';
+          if (!iframeDocument.getElementById(customerShowcaseStyleId)) {
+            const customerShowcaseStyle = iframeDocument.createElement('style');
+            customerShowcaseStyle.id = customerShowcaseStyleId;
+            customerShowcaseStyle.textContent = `
+              .people-showcase-shell {
+                max-width: 1220px;
+                margin: 0 auto;
+                padding: 92px 28px 98px;
+                box-sizing: border-box;
+              }
+
+              .people-showcase-title {
+                margin: 0;
+                color: #f07c18;
+                font-family: 'Spartan', sans-serif;
+                font-size: 35px;
+                line-height: 1.25;
+                font-weight: 600;
+                text-align: center;
+              }
+
+              .people-showcase {
+                position: relative;
+                display: grid;
+                grid-template-columns: 44px minmax(0, 1fr) 44px;
+                align-items: center;
+                gap: 0;
+                margin-top: 28px;
+              }
+
+              .people-grid {
+                position: relative;
+                min-height: 500px;
+                overflow: hidden;
+              }
+
+              .carousel-arrow {
+                width: 36px;
+                height: 36px;
+                border: 0;
+                border-radius: 999px;
+                background: transparent;
+                color: #26170f;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition:
+                  transform var(--collection-focus-duration) ease,
+                  opacity var(--collection-focus-duration) ease;
+                opacity: 0.8;
+                z-index: 5;
+              }
+
+              .carousel-arrow:hover {
+                transform: translateY(-2px);
+                opacity: 1;
+              }
+
+              .carousel-arrow-icon {
+                width: 30px;
+                height: 30px;
+              }
+
+              .carousel-arrow-icon.is-right {
+                transform: rotate(180deg);
+              }
+
+              .person-card {
+                position: absolute;
+                top: 44%;
+                left: 50%;
+                width: 230px;
+                display: flex;
+                justify-content: center;
+                margin: 0;
+                transition:
+                  transform var(--collection-motion-duration) var(--collection-motion-easing),
+                  opacity var(--collection-focus-duration) ease,
+                  filter var(--collection-focus-duration) ease;
+                will-change: transform, opacity;
+              }
+
+              .person-card-button {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                padding: 0;
+                border: 0;
+                background: transparent;
+                text-align: center;
+                cursor: pointer;
+              }
+
+              .person-image-wrap {
+                position: relative;
+                width: 230px;
+                aspect-ratio: 1 / 1.18;
+                height: auto;
+                margin: 0 auto;
+                display: flex;
+                align-items: flex-end;
+                justify-content: center;
+                overflow: visible;
+                padding: 0;
+                box-sizing: border-box;
+                background: transparent;
+                border: 0;
+                box-shadow: none;
+              }
+
+              .person-image-wrap::before {
+                content: none;
+              }
+
+              .person-image {
+                position: relative;
+                z-index: 1;
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                object-position: center bottom;
+                display: block;
+                filter: none;
+              }
+
+              .person-name {
+                width: 100%;
+                margin: 12px 0 0;
+                color: #26170f;
+                font-family: 'Spartan', sans-serif;
+                font-size: 15px;
+                line-height: 1.45;
+                font-weight: 400;
+                letter-spacing: 0.01em;
+                text-align: center;
+              }
+
+              .slot-outer-left {
+                transform: translate(calc(-50% - 560px), -50%) scale(0.3);
+                opacity: 0.1;
+                filter: blur(4px) saturate(0.68) brightness(0.92);
+                z-index: 1;
+              }
+
+              .slot-inner-left {
+                transform: translate(calc(-50% - 295px), -50%) scale(0.62);
+                opacity: 0.5;
+                filter: blur(2.2px) saturate(0.82) brightness(0.95);
+                z-index: 2;
+              }
+
+              .slot-center {
+                width: 340px;
+                transform: translate(-50%, -50%) scale(1.04);
+                opacity: 1;
+                filter: none;
+                z-index: 4;
+              }
+
+              .slot-center .person-card-button {
+                width: 340px;
+              }
+
+              .slot-center .person-image-wrap {
+                width: 340px;
+              }
+
+              .slot-inner-right {
+                transform: translate(calc(-50% + 295px), -50%) scale(0.62);
+                opacity: 0.5;
+                filter: blur(2.2px) saturate(0.82) brightness(0.95);
+                z-index: 2;
+              }
+
+              .slot-outer-right {
+                transform: translate(calc(-50% + 560px), -50%) scale(0.3);
+                opacity: 0.1;
+                filter: blur(4px) saturate(0.68) brightness(0.92);
+                z-index: 1;
+              }
+
+              .slot-center .person-name {
+                margin-top: 14px;
+                font-size: 15px;
+                line-height: 1.55;
+              }
+
+              .slot-inner-left .person-name,
+              .slot-inner-right .person-name {
+                font-size: 13px;
+                line-height: 1.45;
+              }
+
+              .slot-outer-left .person-name,
+              .slot-outer-right .person-name {
+                font-size: 10px;
+                line-height: 1.35;
+              }
+
+              .people-showcase-cta {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                margin: 10px auto 0;
+                padding: 17px 34px;
+                border-radius: 999px;
+                background: linear-gradient(180deg, #7fda27 0%, #57a60a 100%);
+                box-shadow: 0 20px 36px rgba(84, 166, 10, 0.22);
+                color: #ffffff;
+                font-family: 'Montserrat', sans-serif;
+                font-size: 15px;
+                font-weight: 600;
+                letter-spacing: 0.01em;
+                text-align: center;
+                transition:
+                  transform var(--collection-focus-duration) ease,
+                  box-shadow var(--collection-focus-duration) ease,
+                  background var(--collection-focus-duration) ease;
+              }
+
+              .people-showcase-cta:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 24px 40px rgba(84, 166, 10, 0.28);
+                background: linear-gradient(180deg, #89e62e 0%, #62b813 100%);
+              }
+
+              @media (max-width: 1100px) {
+                .people-showcase-shell {
+                  padding-left: 18px;
+                  padding-right: 18px;
+                }
+
+                .people-grid {
+                  min-height: 440px;
+                }
+
+                .person-card {
+                  width: 190px;
+                }
+
+                .person-image-wrap {
+                  width: 190px;
+                  height: auto;
+                }
+
+                .slot-outer-left {
+                  transform: translate(calc(-50% - 430px), -50%) scale(0.28);
+                }
+
+                .slot-inner-left {
+                  transform: translate(calc(-50% - 230px), -50%) scale(0.58);
+                }
+
+                .slot-center {
+                  width: 280px;
+                  transform: translate(-50%, -50%) scale(1.02);
+                }
+
+                .slot-center .person-card-button {
+                  width: 280px;
+                }
+
+                .slot-center .person-image-wrap {
+                  width: 280px;
+                }
+
+                .slot-inner-right {
+                  transform: translate(calc(-50% + 230px), -50%) scale(0.58);
+                }
+
+                .slot-outer-right {
+                  transform: translate(calc(-50% + 430px), -50%) scale(0.28);
+                }
+
+                .person-name {
+                  font-size: 14px;
+                }
+              }
+
+              @media (max-width: 820px) {
+                .people-showcase {
+                  grid-template-columns: 1fr;
+                  gap: 0;
+                }
+
+                .carousel-arrow {
+                  position: absolute;
+                  top: 37%;
+                }
+
+                .carousel-arrow.is-left {
+                  left: 0;
+                }
+
+                .carousel-arrow.is-right {
+                  right: 0;
+                }
+
+                .people-grid {
+                  min-height: 360px;
+                }
+
+                .person-card {
+                  width: 150px;
+                }
+
+                .person-image-wrap {
+                  width: 150px;
+                  height: auto;
+                }
+
+                .slot-outer-left,
+                .slot-outer-right {
+                  opacity: 0;
+                  pointer-events: none;
+                }
+
+                .slot-outer-left {
+                  transform: translate(calc(-50% - 260px), -50%) scale(0.45);
+                }
+
+                .slot-inner-left {
+                  transform: translate(calc(-50% - 112px), -50%) scale(0.56);
+                }
+
+                .slot-center {
+                  transform: translate(-50%, -50%) scale(1.02);
+                }
+
+                .slot-center .person-image-wrap {
+                  width: 220px;
+                }
+
+                .slot-inner-right {
+                  transform: translate(calc(-50% + 112px), -50%) scale(0.56);
+                }
+
+                .slot-outer-right {
+                  transform: translate(calc(-50% + 260px), -50%) scale(0.45);
+                }
+
+                .person-name {
+                  max-width: 170px;
+                  font-size: 13px;
+                }
+              }
+
+              @media (max-width: 560px) {
+                .people-showcase-shell {
+                  padding-top: 76px;
+                  padding-bottom: 82px;
+                }
+
+                .people-showcase-title {
+                  font-size: 28px;
+                }
+
+                .people-grid {
+                  min-height: 300px;
+                }
+
+                .carousel-arrow {
+                  width: 32px;
+                  height: 32px;
+                }
+
+                .person-card {
+                  width: 118px;
+                }
+
+                .person-image-wrap {
+                  width: 118px;
+                  height: auto;
+                }
+
+                .slot-inner-left {
+                  transform: translate(calc(-50% - 80px), -50%) scale(0.56);
+                }
+
+                .slot-center {
+                  transform: translate(-50%, -50%) scale(1.02);
+                }
+
+                .slot-center .person-image-wrap {
+                  width: 170px;
+                }
+
+                .slot-inner-right {
+                  transform: translate(calc(-50% + 80px), -50%) scale(0.56);
+                }
+
+                .person-name {
+                  max-width: 148px;
+                  margin-top: 12px;
+                  font-size: 12px;
+                }
+
+                .slot-center .person-name {
+                  font-size: 14px;
+                }
+
+                .slot-inner-left .person-name,
+                .slot-inner-right .person-name {
+                  max-width: 118px;
+                  font-size: 10px;
+                }
+
+                .people-showcase-cta {
+                  width: 100%;
+                  padding-left: 20px;
+                  padding-right: 20px;
+                  font-size: 14px;
+                }
+              }
+            `;
+            iframeDocument.head?.appendChild(customerShowcaseStyle);
+          }
+
+          const customerGrid = customerSection.querySelector('.people-grid');
+          const customerPrevButton = customerSection.querySelector('.carousel-arrow.is-left');
+          const customerNextButton = customerSection.querySelector('.carousel-arrow.is-right');
+
+          if (
+            customerGrid instanceof iframeWindow.HTMLElement &&
+            customerPrevButton instanceof iframeWindow.HTMLButtonElement &&
+            customerNextButton instanceof iframeWindow.HTMLButtonElement
+          ) {
+            const slotClasses = [
+              'slot-outer-left is-outer',
+              'slot-inner-left is-inner',
+              'slot-center is-center',
+              'slot-inner-right is-inner',
+              'slot-outer-right is-outer',
+            ];
+            const slotOffsets = [-2, -1, 0, 1, 2];
+            let activeCustomerIndex = 0;
+
+            const wrapCustomerIndex = (index) =>
+              (index + customerShowcaseItems.length) % customerShowcaseItems.length;
+
+            const renderCustomerShowcase = () => {
+              customerGrid.innerHTML = slotOffsets
+                .map((offset, positionIndex) => {
+                  const itemIndex = wrapCustomerIndex(activeCustomerIndex + offset);
+                  const item = customerShowcaseItems[itemIndex];
+
+                  return `
+                    <article class="person-card ${slotClasses[positionIndex]}" data-position-index="${positionIndex}" data-product-index="${itemIndex}">
+                      <button
+                        aria-label="Lihat ${item.name}"
+                        aria-pressed="${offset === 0 ? 'true' : 'false'}"
+                        class="person-card-button"
+                        data-source-index="${itemIndex}"
+                        type="button"
+                      >
+                        <div class="person-image-wrap">
+                          <img alt="${item.name}" class="person-image" src="${item.image}">
+                        </div>
+                        <p class="person-name">${item.name}</p>
+                      </button>
+                    </article>
+                  `;
+                })
+                .join('');
+
+              customerGrid.querySelectorAll('.person-card-button').forEach((button) => {
+                if (!(button instanceof iframeWindow.HTMLButtonElement)) return;
+
+                button.addEventListener('click', () => {
+                  const nextIndex = Number(button.dataset.sourceIndex);
+                  if (Number.isNaN(nextIndex)) return;
+                  activeCustomerIndex = nextIndex;
+                  renderCustomerShowcase();
+                });
+              });
+            };
+
+            customerPrevButton.addEventListener('click', () => {
+              activeCustomerIndex = wrapCustomerIndex(activeCustomerIndex - 1);
+              renderCustomerShowcase();
+            });
+
+            customerNextButton.addEventListener('click', () => {
+              activeCustomerIndex = wrapCustomerIndex(activeCustomerIndex + 1);
+              renderCustomerShowcase();
+            });
+
+            renderCustomerShowcase();
+          }
+        }
+
+        const customerGalleryImages = [
+          { match: 'polis.png', src: '/images/6.png' },
+          { match: 'bomba.png', src: '/images/7.png' },
+          { match: 'burger.png', src: '/images/12.png' },
+          { match: 'hartalega.png', src: '/images/14.png' },
+          { match: 'kbs.png', src: '/images/11.png' },
+          { match: 'kkm.png', src: '/images/13.png' },
+          { match: 'pos.png', src: '/images/10.png' },
+          { match: 'selangor-kini.png', src: '/images/9.png' },
+          { match: 'um.png', src: '/images/8.png' },
+        ];
+
+        for (const { match, src } of customerGalleryImages) {
+          const image = Array.from(iframeDocument.querySelectorAll('img')).find(
+            (candidate) =>
+              [candidate.getAttribute('src'), candidate.getAttribute('data-src'), candidate.getAttribute('srcset'), candidate.getAttribute('data-srcset')]
+                .some((value) => value?.includes(match))
+          );
+
+          if (!(image instanceof iframeWindow.HTMLImageElement)) continue;
+
+          const localSrc = `${src}?v=${imageVersion}`;
+          image.setAttribute('src', localSrc);
+          image.setAttribute('data-src', localSrc);
+          image.setAttribute('srcset', `${localSrc} 700w`);
+          image.setAttribute('data-srcset', `${localSrc} 700w`);
+          image.removeAttribute('data-webp');
+        }
+
+        rewriteLinks(iframeDocument);
+
+        const observer = new iframeWindow.MutationObserver((mutations) => {
+          for (const mutation of mutations) {
+            mutation.addedNodes.forEach((node) => {
+              if (node.nodeType === iframeWindow.Node.ELEMENT_NODE) {
+                rewriteLinks(node);
+              }
+            });
+          }
+        });
+
+        if (iframeDocument.documentElement) {
+          observer.observe(iframeDocument.documentElement, {
+            childList: true,
+            subtree: true,
+          });
+        }
+
+        iframeDocument.addEventListener('click', (event) => {
+          const link = event.target.closest?.('a[href]');
+          if (!link) return;
+
+          const localRoute = localRouteForHref(link.getAttribute('href'));
+          if (!localRoute) return;
+
+          event.preventDefault();
+          window.location.assign(localRoute);
+        });
+
+        revealFrame();
+      });
+    </script>
+  </body>
+</html>
